@@ -28,8 +28,6 @@ public class PlayerListener extends BaseListener implements IPlayerTracker {
 		GameRegistry.registerPlayerTracker(this);
 	}
 
-
-
 	@Override
 	public void onPlayerLogin(EntityPlayer player) 
 	{

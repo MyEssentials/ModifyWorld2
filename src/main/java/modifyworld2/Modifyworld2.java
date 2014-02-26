@@ -24,27 +24,12 @@ import modifyworld2.handlers.VehicleListener;
 @NetworkMod(clientSideRequired=false, serverSideRequired=true)
 public class Modifyworld2 
 {
+    public IForgePerms manager;
     public IPermissionManager permManager;
     public IChatManager chatManager;
     public IEconomyManager economyManager;
 	@Instance("Modifyworld2")
 	public static Modifyworld2 instance;
-
-
-    public void initPermManager() throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        Class<?> forgePerms = Class.forName("forgeperms.ForgePerms");
-        permManager = (IPermissionManager) forgePerms.getMethod("getPermissionManager").invoke(null);
-    }
-
-    public void initChatManager() throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        Class<?> forgePerms = Class.forName("forgeperms.ForgePerms");
-        chatManager = (IChatManager) forgePerms.getMethod("getChatManager").invoke(null);
-    }
-
-    public void initEcoManager() throws ClassNotFoundException, NoSuchFieldException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
-        Class<?> forgePerms = Class.forName("forgeperms.ForgePerms");
-        economyManager = (IEconomyManager) forgePerms.getMethod("getEconomyManager").invoke(null);
-    }
 
 	public static String MOD_NAME = "Modifyworld2";
 	protected BaseListener[] listeners = new BaseListener[]
@@ -69,21 +54,8 @@ public class Modifyworld2
     @EventHandler
 	public void modsLoaded(FMLServerStartedEvent var1)
 	{
-        try {
-            initPermManager();
-            initChatManager();
-            initEcoManager();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (NoSuchFieldException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+        manager.setupManagers(chatManager,economyManager,permManager);
+
 
 		for (BaseListener l : listeners)
 			l.load();
