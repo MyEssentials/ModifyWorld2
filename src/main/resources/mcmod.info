@@ -15,7 +15,7 @@
   "screenshots": [
   ],
   "parent":"",
-  "requiredMods": [ "Forge", "PermissionsEx" ],
+  "requiredMods": [ "Forge", "ForgePerms" ],
   "useDependencyInformation": "true"
 }
 ]
