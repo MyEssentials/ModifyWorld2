@@ -1,7 +1,5 @@
 package modifyworld2;
 
-import com.sperion.forgeperms.ForgePerms;
-
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.*;
@@ -11,6 +9,7 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.ChatMessageComponent;
 import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.world.WorldServer;
 import net.minecraft.world.storage.WorldInfo;
@@ -95,7 +94,7 @@ public abstract class BaseListener
 	}
 
 	public String getItemPermission(ItemStack item) {
-		return this.useMaterialNames ? item.getItemName() : String.valueOf(item.itemID);
+		return this.useMaterialNames ? item.getDisplayName() : String.valueOf(item.itemID);
 	}
 
 	/*
@@ -118,7 +117,7 @@ public abstract class BaseListener
 
 	protected boolean permissionDenied(EntityPlayer player, String basePermission, Object... arguments) {
 		String permission = assemblePermission(basePermission, arguments);
-		boolean isDenied = !ForgePerms.getPermissionsHandler().canAccess(player.username, player.worldObj.provider.getDimensionName(), permission);
+		boolean isDenied = !Modifyworld2.instance.permManager.canAccess(player.username, player.worldObj.provider.getDimensionName(), permission);
 
 		if (isDenied) {
 			this.informer.informPlayer(player, permission, arguments);
@@ -128,7 +127,7 @@ public abstract class BaseListener
 	}
 	
 	protected boolean _permissionDenied(EntityPlayer player, String permission, Object... arguments) {
-		return !ForgePerms.getPermissionsHandler().canAccess(player.username, player.worldObj.provider.getDimensionName(), assemblePermission(permission, arguments));
+		return !Modifyworld2.instance.permManager.canAccess(player.username, player.worldObj.provider.getDimensionName(), assemblePermission(permission, arguments));
 	}
 
 	protected String assemblePermission(String permission, Object... arguments) {
@@ -215,7 +214,7 @@ public abstract class BaseListener
             pl.setLocationAndAngles((double)((float)c.posX + 0.5F), (double)((float)c.posY + 0.1F), (double)((float)c.posZ + 0.5F), 0.0F, 0.0F);
         else
         {
-            pl.sendChatToPlayer("You don't have a bed to spawn in");
+            pl.sendChatToPlayer(ChatMessageComponent.createFromText("You don't have a bed to spawn in"));
             WorldInfo info = world.getWorldInfo();
             pl.setLocationAndAngles(info.getSpawnX() + 0.5F, info.getSpawnY() + 0.1F, info.getSpawnZ() + 0.5F, 0, 0);
         }
