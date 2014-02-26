@@ -1,12 +1,12 @@
-package ee.lutsu.alpha.mc.modifyworld2.handlers;
+package modifyworld2.handlers;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.common.IPlayerTracker;
 import cpw.mods.fml.common.registry.GameRegistry;
-import ee.lutsu.alpha.mc.modifyworld2.BaseListener;
-import ee.lutsu.alpha.mc.modifyworld2.Modifyworld2;
+import modifyworld2.BaseListener;
+import modifyworld2.Modifyworld2;
 
 public class PlayerListener extends BaseListener implements IPlayerTracker {
 

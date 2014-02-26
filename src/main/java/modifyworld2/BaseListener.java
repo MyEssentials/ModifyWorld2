@@ -1,4 +1,4 @@
-package ee.lutsu.alpha.mc.modifyworld2;
+package modifyworld2;
 
 import com.sperion.forgeperms.ForgePerms;
 
@@ -159,8 +159,8 @@ public abstract class BaseListener
 			return (getItemPermission((ItemStack) obj));
 		/*} else if (obj instanceof Material) {
 			return (getMaterialPermission((Material) obj));*/
-		} else if (obj instanceof ee.lutsu.alpha.mc.modifyworld2.entities.Block) {
-			return (getMaterialPermission(((ee.lutsu.alpha.mc.modifyworld2.entities.Block)obj).id, ((ee.lutsu.alpha.mc.modifyworld2.entities.Block)obj).type));
+		} else if (obj instanceof modifyworld2.entities.Block) {
+			return (getMaterialPermission(((modifyworld2.entities.Block)obj).id, ((modifyworld2.entities.Block)obj).type));
 		} else if (obj instanceof Block) {
 			return (getMaterialPermission((Block) obj));
 		} else if (obj instanceof IInventory) {

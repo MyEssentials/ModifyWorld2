@@ -1,7 +1,7 @@
-package ee.lutsu.alpha.mc.modifyworld2.handlers;
+package modifyworld2.handlers;
 
-import ee.lutsu.alpha.mc.modifyworld2.Modifyworld2;
-import ee.lutsu.alpha.mc.modifyworld2.BaseListener;
+import modifyworld2.Modifyworld2;
+import modifyworld2.BaseListener;
 import net.minecraftforge.common.MinecraftForge;
 
 public class VehicleListener extends BaseListener {
