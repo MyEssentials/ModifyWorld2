@@ -78,7 +78,7 @@ public class PlayerInformer {
 		while ((index = perm.lastIndexOf(".")) != -1) {
 			perm = perm.substring(0, index);
 
-			message = Modifyworld2.instance.permManager.getOption(player.username, "permission-denied-" + perm, String.valueOf(player.dimension), null);
+			message = Modifyworld2.instance.chatManager.getPlayerInfoString(String.valueOf(player.dimension), player.username, "permission-denied-" + perm, null);
 			if (message == null) {
 				continue;
 			}
@@ -86,7 +86,7 @@ public class PlayerInformer {
 			return message;
 		}
 
-		message = Modifyworld2.instance.permManager.getOption(player.username, "permission-denied", String.valueOf(player.dimension), null);
+		message = Modifyworld2.instance.chatManager.getPlayerInfoString(String.valueOf(player.dimension), player.username, "permission-denied", null);
 
 		if (message != null) {
 			return message;
