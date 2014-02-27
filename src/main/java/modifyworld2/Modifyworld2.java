@@ -3,7 +3,7 @@ package modifyworld2;
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 
-import forgeperms.api.*;
+import cpw.mods.fml.common.event.FMLInterModComms;
 import net.minecraftforge.common.Configuration;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -24,10 +24,6 @@ import modifyworld2.handlers.VehicleListener;
 @NetworkMod(clientSideRequired=false, serverSideRequired=true)
 public class Modifyworld2 
 {
-    public IForgePerms manager;
-    public IPermissionManager permManager;
-    public IChatManager chatManager;
-    public IEconomyManager economyManager;
 	@Instance("Modifyworld2")
 	public static Modifyworld2 instance;
 
@@ -54,9 +50,6 @@ public class Modifyworld2
     @EventHandler
 	public void modsLoaded(FMLServerStartedEvent var1)
 	{
-        manager.setupManagers(chatManager,economyManager,permManager);
-
-
 		for (BaseListener l : listeners)
 			l.load();
 		

@@ -1,5 +1,6 @@
 package modifyworld2;
 
+import forgeperms.api.ForgePermsAPI;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.*;
@@ -117,7 +118,7 @@ public abstract class BaseListener
 
 	protected boolean permissionDenied(EntityPlayer player, String basePermission, Object... arguments) {
 		String permission = assemblePermission(basePermission, arguments);
-		boolean isDenied = !Modifyworld2.instance.permManager.canAccess(player.username, player.worldObj.provider.getDimensionName(), permission);
+		boolean isDenied = !ForgePermsAPI.permManager.canAccess(player.username, player.worldObj.provider.getDimensionName(), permission);
 
 		if (isDenied) {
 			this.informer.informPlayer(player, permission, arguments);
@@ -127,7 +128,7 @@ public abstract class BaseListener
 	}
 	
 	protected boolean _permissionDenied(EntityPlayer player, String permission, Object... arguments) {
-		return !Modifyworld2.instance.permManager.canAccess(player.username, player.worldObj.provider.getDimensionName(), assemblePermission(permission, arguments));
+		return !ForgePermsAPI.permManager.canAccess(player.username, player.worldObj.provider.getDimensionName(), assemblePermission(permission, arguments));
 	}
 
 	protected String assemblePermission(String permission, Object... arguments) {

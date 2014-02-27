@@ -3,7 +3,7 @@ package modifyworld2;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
-
+import forgeperms.api.ForgePermsAPI;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -78,7 +78,7 @@ public class PlayerInformer {
 		while ((index = perm.lastIndexOf(".")) != -1) {
 			perm = perm.substring(0, index);
 
-			message = Modifyworld2.instance.chatManager.getPlayerInfoString(String.valueOf(player.dimension), player.username, "permission-denied-" + perm, null);
+			message = ForgePermsAPI.chatManager.getPlayerInfoString(String.valueOf(player.dimension), player.username, "permission-denied-" + perm, null);
 			if (message == null) {
 				continue;
 			}
@@ -86,7 +86,7 @@ public class PlayerInformer {
 			return message;
 		}
 
-		message = Modifyworld2.instance.chatManager.getPlayerInfoString(String.valueOf(player.dimension), player.username, "permission-denied", null);
+		message = ForgePermsAPI.chatManager.getPlayerInfoString(String.valueOf(player.dimension), player.username, "permission-denied", null);
 
 		if (message != null) {
 			return message;
