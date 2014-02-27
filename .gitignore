@@ -7,3 +7,8 @@
 
 bin/*
 class/*
+
+eclipse/
+*.iml
+*.ipr
+*.iws

@@ -1,4 +1,4 @@
-package ee.lutsu.alpha.mc.modifyworld2;
+package modifyworld2;
 
 import java.util.HashMap;
 import java.util.Map;

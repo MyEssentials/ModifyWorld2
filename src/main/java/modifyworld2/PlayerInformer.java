@@ -1,16 +1,15 @@
-package ee.lutsu.alpha.mc.modifyworld2;
+package modifyworld2;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
-
-import com.sperion.forgeperms.ForgePerms;
-
+import forgeperms.api.ForgePermsAPI;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ChatMessageComponent;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.Property;
 
@@ -79,7 +78,7 @@ public class PlayerInformer {
 		while ((index = perm.lastIndexOf(".")) != -1) {
 			perm = perm.substring(0, index);
 
-			message = ForgePerms.getPermissionsHandler().getOption(player.username, "permission-denied-" + perm, String.valueOf(player.dimension), null);
+			message = ForgePermsAPI.chatManager.getPlayerInfoString(String.valueOf(player.dimension), player.username, "permission-denied-" + perm, null);
 			if (message == null) {
 				continue;
 			}
@@ -87,7 +86,7 @@ public class PlayerInformer {
 			return message;
 		}
 
-		message = ForgePerms.getPermissionsHandler().getOption(player.username, "permission-denied", String.valueOf(player.dimension), null);
+		message = ForgePermsAPI.chatManager.getPlayerInfoString(String.valueOf(player.dimension), player.username, "permission-denied", null);
 
 		if (message != null) {
 			return message;
@@ -108,7 +107,7 @@ public class PlayerInformer {
         }
 
         if (message != null && !message.isEmpty()) {
-            player.sendChatToPlayer(String.format(messageFormat, message).replaceAll("&([a-z0-9])", "\u00A7$1"));
+            player.sendChatToPlayer(ChatMessageComponent.createFromText(String.format(messageFormat, message).replaceAll("&([a-z0-9])", "\u00A7$1")));
         }
     }
 
@@ -118,7 +117,7 @@ public class PlayerInformer {
 		} else */ if (obj instanceof Item) { // Dropped items
 			return ((Item) obj).getUnlocalizedName();
 		} else if (obj instanceof ItemStack) { // Items
-			return ((ItemStack) obj).getItemName();
+			return ((ItemStack) obj).getDisplayName();
 		} else if (obj instanceof Entity) { // Entities
 			return ((Entity) obj).getEntityName().toString().toLowerCase().replace("_", " ");
 		} else if (obj instanceof Block) { // Blocks

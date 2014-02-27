@@ -1,4 +1,4 @@
-package ee.lutsu.alpha.mc.modifyworld2.entities;
+package modifyworld2.entities;
 
 public class Block
 {

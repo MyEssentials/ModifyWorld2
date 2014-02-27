@@ -1,4 +1,4 @@
-package ee.lutsu.alpha.mc.modifyworld2.handlers;
+package modifyworld2.handlers;
 
 import java.util.logging.Level;
 
@@ -11,9 +11,9 @@ import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
-import ee.lutsu.alpha.mc.modifyworld2.BaseListener;
-import ee.lutsu.alpha.mc.modifyworld2.Log;
-import ee.lutsu.alpha.mc.modifyworld2.Modifyworld2;
+import modifyworld2.BaseListener;
+import modifyworld2.Log;
+import modifyworld2.Modifyworld2;
 
 public class EntityListener extends BaseListener {
     private String[] dropsBlacklist = new String[0];

@@ -1,16 +1,20 @@
-package ee.lutsu.alpha.mc.modifyworld2;
+package modifyworld2;
 
 import java.io.File;
+import java.lang.reflect.InvocationTargetException;
 
+import cpw.mods.fml.common.event.FMLInterModComms;
 import net.minecraftforge.common.Configuration;
 import cpw.mods.fml.common.Mod;
+import cpw.mods.fml.common.Mod.EventHandler;
+import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartedEvent;
 import cpw.mods.fml.common.network.NetworkMod;
-import ee.lutsu.alpha.mc.modifyworld2.handlers.BlockListener;
-import ee.lutsu.alpha.mc.modifyworld2.handlers.EntityListener;
-import ee.lutsu.alpha.mc.modifyworld2.handlers.PlayerListener;
-import ee.lutsu.alpha.mc.modifyworld2.handlers.VehicleListener;
+import modifyworld2.handlers.BlockListener;
+import modifyworld2.handlers.EntityListener;
+import modifyworld2.handlers.PlayerListener;
+import modifyworld2.handlers.VehicleListener;
 
 @Mod(
 		modid="Modifyworld2", 
@@ -20,9 +24,9 @@ import ee.lutsu.alpha.mc.modifyworld2.handlers.VehicleListener;
 @NetworkMod(clientSideRequired=false, serverSideRequired=true)
 public class Modifyworld2 
 {
-	@Mod.Instance("Modifyworld2")
+	@Instance("Modifyworld2")
 	public static Modifyworld2 instance;
-	
+
 	public static String MOD_NAME = "Modifyworld2";
 	protected BaseListener[] listeners = new BaseListener[]
 	{
@@ -35,15 +39,15 @@ public class Modifyworld2
 	public File configFile;
 	protected Configuration config;
 
-	@Mod.PreInit
+	@EventHandler
 	public void onLoad(FMLPreInitializationEvent ev)
 	{
 		configFile = ev.getSuggestedConfigurationFile();
 		config = new Configuration(configFile);
 		informer = new PlayerInformer(config);
 	}
-	
-	@Mod.ServerStarted
+
+    @EventHandler
 	public void modsLoaded(FMLServerStartedEvent var1)
 	{
 		for (BaseListener l : listeners)
