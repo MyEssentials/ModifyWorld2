@@ -81,7 +81,6 @@ public abstract class BaseListener
 		return formatEnumString(type.getInvName());
 	}
 
-	// Functional programming fuck yeah
 	private String getMaterialPermission(Block type) {
 		return this.useMaterialNames ? formatEnumString(type.getUnlocalizedName()) : Integer.toString(type.blockID);
 	}
@@ -198,15 +197,14 @@ public abstract class BaseListener
 		respawnPlayer(pl, pl.worldObj.provider.getRespawnDimension(pl));
 	}
 
-    
     public void respawnPlayer(EntityPlayerMP pl, int dim)
     {
         if (pl.dimension != dim)
             MinecraftServer.getServer().getConfigurationManager().transferPlayerToDimension(pl, dim);
         
         WorldServer world = MinecraftServer.getServer().worldServerForDimension(pl.dimension);
-        ChunkCoordinates c = pl.getBedLocation();
-        boolean forcedSpawn = pl.isSpawnForced();
+        ChunkCoordinates c = pl.getBedLocation(world.provider.getRespawnDimension(pl));
+        boolean forcedSpawn = pl.isSpawnForced(world.provider.getRespawnDimension(pl));
         
         if (c != null)
             c = EntityPlayer.verifyRespawnCoordinates(world, c, forcedSpawn);

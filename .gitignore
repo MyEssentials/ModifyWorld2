@@ -12,3 +12,4 @@ eclipse/
 *.iml
 *.ipr
 *.iws
+/bin

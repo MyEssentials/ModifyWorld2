@@ -1,9 +1,11 @@
 package modifyworld2;
 
 import java.io.File;
-import java.lang.reflect.InvocationTargetException;
 
-import cpw.mods.fml.common.event.FMLInterModComms;
+import modifyworld2.handlers.BlockListener;
+import modifyworld2.handlers.EntityListener;
+import modifyworld2.handlers.PlayerListener;
+import modifyworld2.handlers.VehicleListener;
 import net.minecraftforge.common.Configuration;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -11,10 +13,6 @@ import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartedEvent;
 import cpw.mods.fml.common.network.NetworkMod;
-import modifyworld2.handlers.BlockListener;
-import modifyworld2.handlers.EntityListener;
-import modifyworld2.handlers.PlayerListener;
-import modifyworld2.handlers.VehicleListener;
 
 @Mod(
 		modid="Modifyworld2", 
