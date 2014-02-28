@@ -1,15 +1,7 @@
-*.class
-
-# Package Files #
-*.jar
-*.war
-*.ear
-
-bin/*
-class/*
-
-eclipse/
-*.iml
-*.ipr
-*.iws
+/.settings
+/.classpath
+/.project
+/.gradle
+/eclipse
 /bin
+/build
