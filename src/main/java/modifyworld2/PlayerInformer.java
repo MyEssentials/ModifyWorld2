@@ -69,8 +69,7 @@ public class PlayerInformer {
 		return this.defaultMessage;
 	}
 
-	public String getMessage(EntityPlayer player, String permission)
-	{
+	public String getMessage(EntityPlayer player, String permission) {
 		String message;
 		String perm = permission;
 		int index;
@@ -95,26 +94,27 @@ public class PlayerInformer {
 		return getMessage(permission);
 	}
 
-    public void informPlayer(EntityPlayer player, String permission, Object... args) {
-        if (!enabled) {
-            return;
-        }
+	public void informPlayer(EntityPlayer player, String permission, Object... args) {
+		if (!enabled) {
+			return;
+		}
 
-        String message = getMessage(player, permission).replace("$permission", permission);
+		String message = getMessage(player, permission).replace("$permission", permission);
 
-        for (int i = 0; i < args.length; i++) {
-            message = message.replace("$" + (i + 1), describeObject(args[i]));
-        }
+		for (int i = 0; i < args.length; i++) {
+			message = message.replace("$" + (i + 1), describeObject(args[i]));
+		}
 
-        if (message != null && !message.isEmpty()) {
-            player.sendChatToPlayer(ChatMessageComponent.createFromText(String.format(messageFormat, message).replaceAll("&([a-z0-9])", "\u00A7$1")));
-        }
-    }
+		if (message != null && !message.isEmpty()) {
+			player.sendChatToPlayer(ChatMessageComponent.createFromText(String.format(messageFormat, message).replaceAll("&([a-z0-9])", "\u00A7$1")));
+		}
+	}
 
 	protected String describeObject(Object obj) {
-		/*if (obj instanceof ComplexEntityPart) { // Complex entities
-			return describeObject(((ComplexEntityPart) obj).getParent());
-		} else */ if (obj instanceof Item) { // Dropped items
+		/*
+		 * if (obj instanceof ComplexEntityPart) { // Complex entities return
+		 * describeObject(((ComplexEntityPart) obj).getParent()); } else
+		 */if (obj instanceof Item) { // Dropped items
 			return ((Item) obj).getUnlocalizedName();
 		} else if (obj instanceof ItemStack) { // Items
 			return ((ItemStack) obj).getDisplayName();
@@ -122,8 +122,10 @@ public class PlayerInformer {
 			return ((Entity) obj).getEntityName().toString().toLowerCase().replace("_", " ");
 		} else if (obj instanceof Block) { // Blocks
 			return ((Block) obj).getLocalizedName();
-		/*} else if (obj instanceof Material) { // Just material
-			return describeMaterial((Material) obj);*/
+			/*
+			 * } else if (obj instanceof Material) { // Just material return
+			 * describeMaterial((Material) obj);
+			 */
 		}
 
 		return obj.toString();

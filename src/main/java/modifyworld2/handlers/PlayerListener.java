@@ -1,48 +1,32 @@
 package modifyworld2.handlers;
 
+import modifyworld2.BaseListener;
+import modifyworld2.Modifyworld2;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.common.IPlayerTracker;
 import cpw.mods.fml.common.registry.GameRegistry;
-import modifyworld2.BaseListener;
-import modifyworld2.Modifyworld2;
 
 public class PlayerListener extends BaseListener implements IPlayerTracker {
-
-	protected boolean checkInventory = false;
-	protected boolean dropRestrictedItem = false;
-
 	@Override
-	public void load()
-	{
-		super.load();
-		this.checkInventory = config.get("General", "item-restrictions", this.checkInventory).getBoolean(this.checkInventory);
-		this.dropRestrictedItem = config.get("General", "drop-restricted-item", this.dropRestrictedItem).getBoolean(this.dropRestrictedItem);
-	}
-
-	@Override
-	protected void registerEvents(Modifyworld2 plugin)
-	{
+	protected void registerEvents(Modifyworld2 plugin) {
 		MinecraftForge.EVENT_BUS.register(this);
 		GameRegistry.registerPlayerTracker(this);
 	}
 
 	@Override
-	public void onPlayerLogin(EntityPlayer player) 
-	{
+	public void onPlayerLogin(EntityPlayer player) {
 		if (!enabled)
 			return;
-		
-		EntityPlayerMP pl = (EntityPlayerMP)player;
-		
-		if (permissionDenied(pl, "modifyworld.login") || (pl.dimension == 0 && permissionDenied(pl, "modifyworld.enter", 0)))
-		{
+
+		EntityPlayerMP pl = (EntityPlayerMP) player;
+
+		if (permissionDenied(pl, "modifyworld.login") || (pl.dimension == 0 && permissionDenied(pl, "modifyworld.enter", 0))) {
 			pl.playerNetServerHandler.kickPlayerFromServer(informer.getMessage(pl, "modifyworld.login"));
 		}
-		
-		if (pl.dimension != 0 && permissionDenied(pl, "modifyworld.enter", pl.dimension))
-		{
+
+		if (pl.dimension != 0 && permissionDenied(pl, "modifyworld.enter", pl.dimension)) {
 			sendToServerSpawn(pl);
 		}
 	}
@@ -52,15 +36,13 @@ public class PlayerListener extends BaseListener implements IPlayerTracker {
 	}
 
 	@Override
-	public void onPlayerChangedDimension(EntityPlayer player) 
-	{
+	public void onPlayerChangedDimension(EntityPlayer player) {
 		if (!enabled)
 			return;
-		
-		EntityPlayerMP pl = (EntityPlayerMP)player;
-		
-		if (pl.dimension != 0 && permissionDenied(pl, "modifyworld.enter", pl.dimension))
-		{
+
+		EntityPlayerMP pl = (EntityPlayerMP) player;
+
+		if (pl.dimension != 0 && permissionDenied(pl, "modifyworld.enter", pl.dimension)) {
 			respawnPlayer(pl, 0);
 		}
 	}

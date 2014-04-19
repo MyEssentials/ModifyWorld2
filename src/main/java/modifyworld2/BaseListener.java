@@ -16,8 +16,7 @@ import net.minecraft.world.WorldServer;
 import net.minecraft.world.storage.WorldInfo;
 import net.minecraftforge.common.Configuration;
 
-public abstract class BaseListener
-{
+public abstract class BaseListener {
 	protected PlayerInformer informer;
 	protected Configuration config;
 	protected boolean informPlayers = false;
@@ -28,17 +27,15 @@ public abstract class BaseListener
 	protected Modifyworld2 parent;
 	public boolean enabled = false;
 
-	public BaseListener()
-	{
+	public BaseListener() {
 		this.registerEvents(parent);
 	}
-	
-	public void load()
-	{
+
+	public void load() {
 		this.informer = Modifyworld2.instance.informer;
 		this.config = Modifyworld2.instance.config;
 		this.parent = Modifyworld2.instance;
-		
+
 		this.informPlayers = config.get("General", "informPlayers", informPlayers).getBoolean(informPlayers);
 		this.useMaterialNames = config.get("General", "use-material-names", useMaterialNames).getBoolean(useMaterialNames);
 		this.checkMetadata = config.get("General", "check-metadata", checkMetadata).getBoolean(checkMetadata);
@@ -46,12 +43,11 @@ public abstract class BaseListener
 		this.enableWhitelist = config.get("General", "whitelist", enableWhitelist).getBoolean(enableWhitelist);
 	}
 
-	private String getEntityName(Entity entity)
-	{
-/*
-		if (entity instanceof ComplexEntityPart) {
-			return getEntityName(((ComplexEntityPart) entity).getParent());
-		}*/
+	private String getEntityName(Entity entity) {
+		/*
+		 * if (entity instanceof ComplexEntityPart) { return
+		 * getEntityName(((ComplexEntityPart) entity).getParent()); }
+		 */
 
 		String entityName = formatEnumString(entity.getEntityName());
 
@@ -67,7 +63,6 @@ public abstract class BaseListener
 			return "animal." + entityName + (animal.isTamed() ? "." + animal.getOwner().getEntityName() : "");
 		}
 
-
 		EntityCategory category = EntityCategory.fromEntity(entity);
 
 		if (category == null) {
@@ -76,7 +71,7 @@ public abstract class BaseListener
 
 		return category.getNameDot() + entityName;
 	}
-	
+
 	private String getInventoryTypePermission(IInventory type) {
 		return formatEnumString(type.getInvName());
 	}
@@ -88,7 +83,7 @@ public abstract class BaseListener
 	private String getMaterialPermission(int type) {
 		return this.useMaterialNames ? formatEnumString(Block.blocksList[type].getUnlocalizedName()) : Integer.toString(type);
 	}
-	
+
 	private String getMaterialPermission(int type, int metadata) {
 		return getMaterialPermission(type) + (metadata > 0 ? ":" + metadata : "");
 	}
@@ -96,24 +91,6 @@ public abstract class BaseListener
 	public String getItemPermission(ItemStack item) {
 		return this.useMaterialNames ? item.getDisplayName() : String.valueOf(item.itemID);
 	}
-
-	/*
-	protected boolean permissionDenied(Player player, String basePermission, Entity entity) {
-		if (entity instanceof Player && PermissionsEx.isAvailable()) {
-			PermissionUser entityUser = PermissionsEx.getUser((Player)entity);
-
-			for (PermissionGroup group : entityUser.getGroups()) {
-				if (permissionDenied(player, basePermission, "group", group.getName())) {
-					return true;
-				}
-			}
-
-			return permissionDenied(player, basePermission, "player", entityUser.getName());
-		}
-
-		return permissionDenied(player, basePermission, entity);
-	}
-	*/
 
 	protected boolean permissionDenied(EntityPlayer player, String basePermission, Object... arguments) {
 		String permission = assemblePermission(basePermission, arguments);
@@ -125,7 +102,7 @@ public abstract class BaseListener
 
 		return isDenied;
 	}
-	
+
 	protected boolean _permissionDenied(EntityPlayer player, String permission, Object... arguments) {
 		return !ForgePermsAPI.permManager.canAccess(player.username, player.worldObj.provider.getDimensionName(), assemblePermission(permission, arguments));
 	}
@@ -150,79 +127,69 @@ public abstract class BaseListener
 	protected String getObjectPermission(Object obj) {
 		if (obj instanceof Entity) {
 			return (getEntityName((Entity) obj));
-		/*} else if (obj instanceof EntityType) {
-			return formatEnumString(((EntityType)obj).name());*/
-		/*} else if (obj instanceof BlockState) {
-			return (getBlockPermission(((BlockState)obj).getBlock()));*/
 		} else if (obj instanceof ItemStack) {
 			return (getItemPermission((ItemStack) obj));
-		/*} else if (obj instanceof Material) {
-			return (getMaterialPermission((Material) obj));*/
 		} else if (obj instanceof modifyworld2.entities.Block) {
-			return (getMaterialPermission(((modifyworld2.entities.Block)obj).id, ((modifyworld2.entities.Block)obj).type));
+			return (getMaterialPermission(((modifyworld2.entities.Block) obj).id, ((modifyworld2.entities.Block) obj).type));
 		} else if (obj instanceof Block) {
 			return (getMaterialPermission((Block) obj));
 		} else if (obj instanceof IInventory) {
-			return getInventoryTypePermission((IInventory)obj);
+			return getInventoryTypePermission((IInventory) obj);
 		}
 
 		return (obj.toString());
 	}
 
 	protected abstract void registerEvents(Modifyworld2 plugin);
-	
+
 	private String formatEnumString(String enumName) {
 		return enumName.toLowerCase().replace("_", "");
 	}
-	
-	public void sendToServerSpawn(EntityPlayerMP pl)
-	{
+
+	public void sendToServerSpawn(EntityPlayerMP pl) {
 		if (pl.dimension != 0)
 			MinecraftServer.getServer().getConfigurationManager().transferPlayerToDimension(pl, 0);
 
 		WorldServer world = MinecraftServer.getServer().worldServerForDimension(pl.dimension);
 		WorldInfo info = world.getWorldInfo();
 		pl.setLocationAndAngles(info.getSpawnX(), info.getSpawnY(), info.getSpawnZ(), 0, 0);
-		
-        world.theChunkProviderServer.loadChunk((int)pl.posX >> 4, (int)pl.posZ >> 4);
 
-        while (!world.getCollidingBoundingBoxes(pl, pl.boundingBox).isEmpty())
-            pl.setPosition(pl.posX, pl.posY + 1.0D, pl.posZ);
-        
-        pl.playerNetServerHandler.setPlayerLocation(pl.posX, pl.posY, pl.posZ, pl.rotationYaw, pl.rotationPitch);
+		world.theChunkProviderServer.loadChunk((int) pl.posX >> 4, (int) pl.posZ >> 4);
+
+		while (!world.getCollidingBoundingBoxes(pl, pl.boundingBox).isEmpty())
+			pl.setPosition(pl.posX, pl.posY + 1.0D, pl.posZ);
+
+		pl.playerNetServerHandler.setPlayerLocation(pl.posX, pl.posY, pl.posZ, pl.rotationYaw, pl.rotationPitch);
 	}
-	
-	public void respawnPlayer(EntityPlayerMP pl)
-	{
+
+	public void respawnPlayer(EntityPlayerMP pl) {
 		respawnPlayer(pl, pl.worldObj.provider.getRespawnDimension(pl));
 	}
 
-    public void respawnPlayer(EntityPlayerMP pl, int dim)
-    {
-        if (pl.dimension != dim)
-            MinecraftServer.getServer().getConfigurationManager().transferPlayerToDimension(pl, dim);
-        
-        WorldServer world = MinecraftServer.getServer().worldServerForDimension(pl.dimension);
-        ChunkCoordinates c = pl.getBedLocation(world.provider.getRespawnDimension(pl));
-        boolean forcedSpawn = pl.isSpawnForced(world.provider.getRespawnDimension(pl));
-        
-        if (c != null)
-            c = EntityPlayer.verifyRespawnCoordinates(world, c, forcedSpawn);
+	public void respawnPlayer(EntityPlayerMP pl, int dim) {
+		if (pl.dimension != dim)
+			MinecraftServer.getServer().getConfigurationManager().transferPlayerToDimension(pl, dim);
 
-        if (c != null)
-            pl.setLocationAndAngles((double)((float)c.posX + 0.5F), (double)((float)c.posY + 0.1F), (double)((float)c.posZ + 0.5F), 0.0F, 0.0F);
-        else
-        {
-            pl.sendChatToPlayer(ChatMessageComponent.createFromText("You don't have a bed to spawn in"));
-            WorldInfo info = world.getWorldInfo();
-            pl.setLocationAndAngles(info.getSpawnX() + 0.5F, info.getSpawnY() + 0.1F, info.getSpawnZ() + 0.5F, 0, 0);
-        }
-        
-        world.theChunkProviderServer.loadChunk((int)pl.posX >> 4, (int)pl.posZ >> 4);
+		WorldServer world = MinecraftServer.getServer().worldServerForDimension(pl.dimension);
+		ChunkCoordinates c = pl.getBedLocation(world.provider.getRespawnDimension(pl));
+		boolean forcedSpawn = pl.isSpawnForced(world.provider.getRespawnDimension(pl));
 
-        while (!world.getCollidingBoundingBoxes(pl, pl.boundingBox).isEmpty())
-            pl.setPosition(pl.posX, pl.posY + 1.0D, pl.posZ);
-        
-        pl.playerNetServerHandler.setPlayerLocation(pl.posX, pl.posY, pl.posZ, pl.rotationYaw, pl.rotationPitch);
-    }
+		if (c != null)
+			c = EntityPlayer.verifyRespawnCoordinates(world, c, forcedSpawn);
+
+		if (c != null)
+			pl.setLocationAndAngles((double) ((float) c.posX + 0.5F), (double) ((float) c.posY + 0.1F), (double) ((float) c.posZ + 0.5F), 0.0F, 0.0F);
+		else {
+			pl.sendChatToPlayer(ChatMessageComponent.createFromText("You don't have a bed to spawn in"));
+			WorldInfo info = world.getWorldInfo();
+			pl.setLocationAndAngles(info.getSpawnX() + 0.5F, info.getSpawnY() + 0.1F, info.getSpawnZ() + 0.5F, 0, 0);
+		}
+
+		world.theChunkProviderServer.loadChunk((int) pl.posX >> 4, (int) pl.posZ >> 4);
+
+		while (!world.getCollidingBoundingBoxes(pl, pl.boundingBox).isEmpty())
+			pl.setPosition(pl.posX, pl.posY + 1.0D, pl.posZ);
+
+		pl.playerNetServerHandler.setPlayerLocation(pl.posX, pl.posY, pl.posZ, pl.rotationYaw, pl.rotationPitch);
+	}
 }

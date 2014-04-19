@@ -17,18 +17,14 @@ import net.minecraft.entity.projectile.EntityArrow;
 
 @SuppressWarnings("unchecked")
 public enum EntityCategory {
-    PLAYER("player", EntityPlayer.class),
-	ITEM("item", EntityItem.class),
-	ANIMAL("animal", EntityAnimal.class, EntitySquid.class),
-	MONSTER("monster", EntityMob.class, EntitySlime.class, EntityDragon.class, EntityGhast.class ),
-	NPC("npc", EntityVillager.class),
-	PROJECTILE("projectile", EntityArrow.class);
-	
+	PLAYER("player", EntityPlayer.class), ITEM("item", EntityItem.class), ANIMAL("animal", EntityAnimal.class, EntitySquid.class), MONSTER("monster", EntityMob.class, EntitySlime.class, EntityDragon.class, EntityGhast.class), NPC("npc", EntityVillager.class), PROJECTILE("projectile",
+			EntityArrow.class);
+
 	private String name;
 	private Class<? extends Entity> classes[];
-	
+
 	private final static Map<Class<? extends Entity>, EntityCategory> map = new HashMap<Class<? extends Entity>, EntityCategory>();
-	
+
 	static {
 		for (EntityCategory cat : EntityCategory.values()) {
 			for (Class<? extends Entity> catClass : cat.getClasses()) {
@@ -36,32 +32,32 @@ public enum EntityCategory {
 			}
 		}
 	}
-	
+
 	private EntityCategory(String name, Class<? extends Entity>... classes) {
 		this.name = name;
-        this.classes = classes;
+		this.classes = classes;
 	}
-	
+
 	public String getName() {
 		return this.name;
 	}
-	
+
 	public String getNameDot() {
 		return this.getName() + ".";
 	}
-	
+
 	public Class<? extends Entity>[] getClasses() {
 		return this.classes;
 	}
-	
+
 	public static EntityCategory fromEntity(Entity entity) {
 		for (Class<? extends Entity> entityClass : map.keySet()) {
 			if (entityClass.isAssignableFrom(entity.getClass())) {
 				return map.get(entityClass);
 			}
 		}
-		
+
 		return null;
 	}
-	
+
 }
